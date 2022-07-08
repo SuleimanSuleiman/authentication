@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "pwa-msedge",
+            "name": "http://res.redirect('/login')",
+            "request": "launch",
+            "url": "http://res.redirect('/login')"
+        }
+    ]
+}

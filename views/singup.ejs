@@ -1,0 +1,58 @@
+<html>
+<head>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <%- include('./partials/header.ejs') %> 
+    <form id='form' method="POST" action="/signup">
+        <h2>signup</h2>
+        <label for="firstName">First name</label>
+        <input type="text" name="firstName" id="firstName" placeholder="Enter  first Name"  >
+        <div class="firstName error"></div>
+        <label for=" lastName">familly name</label>
+        <input type="text" name="lastName" id="lastName" placeholder="Enter  family Name" value=<%= password.lastName %>  >
+        <div class="lastName error"></div>
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" placeholder="Enter email" value=<%= password.email %>  >
+        <div class="email error"></div>
+        <label for="password">password</label>
+        <input type="password" name="password" id="password" placeholder="Enter Password">
+        <div class="password error"></div>
+        <input type="submit" value="Sign up">
+    </form>
+    <script>
+        const form = document.getElementById('form')
+
+        form.addEventListener('submit' ,async (e) =>{
+
+            e.preventDefault()
+
+            const formElement = {
+                firstName : form.elements.firstName.value,
+                lastName : form.elements.lastName.value,
+                email : form.elements.email.value,
+                password : form.elements.password.value,
+            }
+            try{
+                const res = await fetch('/signup',{
+                    method: 'POST',
+                    body: JSON.stringify(formElement),
+                    headers: {'Content-Type':'application/json'}
+                })
+                const data = await res.json()
+                if(data.errors){
+                    document.querySelector('.firstName.error').textContent = data.errors.firstName
+                    document.querySelector('.lastName.error').textContent  = data.errors.lastName
+                    document.querySelector('.email.error').textContent     = data.errors.email
+                    document.querySelector('.password.error').textContent  = data.errors.password
+                }else{
+                    location.assign('/')
+                }
+            }catch(err){
+                console.log(err)
+            }
+        })
+
+    </script>
+</body>
+</html>
